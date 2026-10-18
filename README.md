@@ -14,8 +14,8 @@ Steps
 1. `python3 load.py online_retail_II.xlsx all.pkl`
 2. `python3 -I analysis_c2.py all.pkl > my_primary_output.txt` then compare with `outputs/analysis_output_PRIMARY_B1000.txt` (`cmp` or sha256).
 3. Optional supplementary run: `C2_B=10000 python3 -I analysis_c2.py all.pkl > my_supp_output.txt`.
-4. Figures: `mkdir figures; python3 figures_script/plot_figures.py outputs/analysis_output_PRIMARY_B1000.txt` draws the three data figures from the frozen output (the manuscript `.tex` is not part of this package). If you pass a manuscript `.tex` as an optional second argument, the script also cross-checks the plotted values against the numbers printed in that manuscript.
-
+4. mkdir -p figures
+python3 plot_figures.py analysis_output_PRIMARY_B1000.txt
 Clean-room test (Linux, fresh directory, using the UCI Online Retail II zip supplied by the authors): `load.py` about 50 s; `analysis_c2.py` about 35 s and its output is byte-identical to the frozen primary output; the `C2_B=10000` run takes about 3 minutes and is byte-identical to the supplementary output; `plot_figures.py` runs without a manuscript.
 
 Environment used for the reported run: Python 3.13.16, pandas 3.0.5, numpy 2.5.3, scipy 1.18.1, openpyxl 3.1.5 (Linux). Bootstrap draws depend on the numpy random generator version; if your environment differs, small differences in resampled summaries are possible, so compare against the frozen output and report the versions you used.
