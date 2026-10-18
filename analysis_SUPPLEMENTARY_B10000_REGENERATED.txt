@@ -1,0 +1,294 @@
+
+====================================================================================================
+0. PLAN CONFORMANCE CHECKS (run before any outcome is computed)
+====================================================================================================
+L = 23 (2011-11); t=0 = 2009-12; washout cohorts c<6 excluded; look-back 6 months; n_c threshold 100
+eligible cohorts h=6: [6, 7, 8, 9, 10, 11, 14, 15, 16, 17] (k=10);  h=9: [6, 7, 8, 9, 10, 11, 14] (k=7)
+n_c per cohort matches the counts-only audit: OK
+customers excluded by washout (first qualifying month 0..5): 2703; candidates 3147; prior-record excluded 17; final n_c total 3130
+duplicate-row removal (all 8 columns) leaves cohort membership identical: True; activity matrix identical: True
+windows nested at customer level (A1<=A3<=A6): OK for all cohort/horizon cells
+
+====================================================================================================
+0b. CALENDAR MONTHS OF EACH WINDOW (cohort month c; window = [c+h-w+1, c+h])
+====================================================================================================
+ h  c  cohort      w1               w3               w6
+ 6  6 2010-06 2010-12 2010-10..2010-12 2010-07..2010-12
+ 6  7 2010-07 2011-01 2010-11..2011-01 2010-08..2011-01
+ 6  8 2010-08 2011-02 2010-12..2011-02 2010-09..2011-02
+ 6  9 2010-09 2011-03 2011-01..2011-03 2010-10..2011-03
+ 6 10 2010-10 2011-04 2011-02..2011-04 2010-11..2011-04
+ 6 11 2010-11 2011-05 2011-03..2011-05 2010-12..2011-05
+ 6 14 2011-02 2011-08 2011-06..2011-08 2011-03..2011-08
+ 6 15 2011-03 2011-09 2011-07..2011-09 2011-04..2011-09
+ 6 16 2011-04 2011-10 2011-08..2011-10 2011-05..2011-10
+ 6 17 2011-05 2011-11 2011-09..2011-11 2011-06..2011-11
+ 9  6 2010-06 2011-03 2011-01..2011-03 2010-10..2011-03
+ 9  7 2010-07 2011-04 2011-02..2011-04 2010-11..2011-04
+ 9  8 2010-08 2011-05 2011-03..2011-05 2010-12..2011-05
+ 9  9 2010-09 2011-06 2011-04..2011-06 2011-01..2011-06
+ 9 10 2010-10 2011-07 2011-05..2011-07 2011-02..2011-07
+ 9 11 2010-11 2011-08 2011-06..2011-08 2011-03..2011-08
+ 9 14 2011-02 2011-11 2011-09..2011-11 2011-06..2011-11
+
+====================================================================================================
+1. ELIGIBLE COHORTS, SIZES, SCREENING EFFECT, EXCLUDED COHORTS
+====================================================================================================
+ c   month  candidates  excluded_prior_record  share_excl_pct  n_c  n_ge_100  eligible_h6  eligible_h9  missing_ID_share_pct_among_noncancel_posQ_posP_rows
+ 6 2010-06         270                      8            2.96  262      True         True         True                                                19.83
+ 7 2010-07         186                      1            0.54  185      True         True         True                                                16.83
+ 8 2010-08         162                      1            0.62  161      True         True         True                                                18.73
+ 9 2010-09         243                      3            1.23  240      True         True         True                                                15.84
+10 2010-10         377                      1            0.27  376      True         True         True                                                14.25
+11 2010-11         325                      1            0.31  324      True         True         True                                                21.12
+12 2010-12          76                      0            0.00   76     False        False        False                                                35.96
+13 2011-01          71                      0            0.00   71     False        False        False                                                38.12
+14 2011-02         124                      1            0.81  123      True         True         True                                                26.48
+15 2011-03         179                      0            0.00  179      True         True        False                                                24.10
+16 2011-04         106                      0            0.00  106      True         True        False                                                22.18
+17 2011-05         111                      1            0.90  110      True         True        False                                                21.69
+18 2011-06         108                      0            0.00  108      True        False        False                                                24.44
+19 2011-07         102                      0            0.00  102      True        False        False                                                30.59
+20 2011-08         106                      0            0.00  106      True        False        False                                                21.68
+21 2011-09         189                      0            0.00  189      True        False        False                                                18.74
+22 2011-10         221                      0            0.00  221      True        False        False                                                16.44
+23 2011-11         191                      0            0.00  191      True        False        False                                                22.60
+
+Excluded below-threshold cohorts: December 2010 (c=12) n_c=76, January 2011 (c=13) n_c=71; missing-ID share among non-cancellation rows with Quantity>0 and Price>0 in those calendar months (not share of all rows): 35.96% and 38.12%
+Near-threshold eligible cohorts: c=16 (n_c=106) and c=17 (n_c=110); c=14 n_c=123
+Eligible sequences are non-contiguous (c=12,13 absent); they are not a continuous time series.
+
+====================================================================================================
+2. POINT ESTIMATES (original data): activity rates, R6-R1, ranks, top/bottom sets
+====================================================================================================
+
+--- h = 6  (k = 10) ---
+ c  cohort  n_c     R1     R3     R6  G=R6-R1  rank_w1  rank_w3  rank_w6
+ 6 2010-06  262 0.1260 0.4313 0.5954   0.4695      8.0      2.0      1.0
+ 7 2010-07  185 0.1135 0.3730 0.5784   0.4649      9.0      5.0      3.0
+ 8 2010-08  161 0.0994 0.2609 0.5217   0.4224     10.0      7.0      6.0
+ 9 2010-09  240 0.1375 0.2500 0.5167   0.3792      5.0      8.0      7.0
+10 2010-10  376 0.1303 0.2314 0.4548   0.3245      6.0      9.0      9.0
+11 2010-11  324 0.1296 0.2160 0.3457   0.2160      7.0     10.0     10.0
+14 2011-02  123 0.1545 0.3577 0.4797   0.3252      4.0      6.0      8.0
+15 2011-03  179 0.2067 0.3743 0.5587   0.3520      2.0      4.0      4.0
+16 2011-04  106 0.1792 0.4340 0.5472   0.3679      3.0      1.0      5.0
+17 2011-05  110 0.2545 0.4273 0.5909   0.3364      1.0      3.0      2.0
+  w=1: top set cohorts [15, 16, 17] (size 3), bottom set [6, 7, 8] (size 3); boundary ties: top cutoff shared by 1 cohort(s), bottom cutoff shared by 1 cohort(s)
+  w=3: top set cohorts [6, 16, 17] (size 3), bottom set [9, 10, 11] (size 3); boundary ties: top cutoff shared by 1 cohort(s), bottom cutoff shared by 1 cohort(s)
+  w=6: top set cohorts [6, 7, 17] (size 3), bottom set [10, 11, 14] (size 3); boundary ties: top cutoff shared by 1 cohort(s), bottom cutoff shared by 1 cohort(s)
+  tied rates within vector: w=1: 0, w=3: 0, w=6: 0
+  pair (1,3): tau-b point = 0.3333; Jaccard top = 0.500, bottom = 0.000
+  pair (1,6): tau-b point = 0.2000; Jaccard top = 0.200, bottom = 0.000
+  pair (3,6): tau-b point = 0.6889; Jaccard top = 0.500, bottom = 0.500
+
+--- h = 9  (k = 7) ---
+ c  cohort  n_c     R1     R3     R6  G=R6-R1  rank_w1  rank_w3  rank_w6
+ 6 2010-06  262 0.1183 0.2099 0.4962   0.3779      4.0      6.0      1.0
+ 7 2010-07  185 0.1135 0.2811 0.4865   0.3730      5.0      3.0      2.0
+ 8 2010-08  161 0.1304 0.2919 0.4161   0.2857      3.0      2.0      4.0
+ 9 2010-09  240 0.1333 0.2458 0.3625   0.2292      2.0      5.0      5.0
+10 2010-10  376 0.0931 0.2500 0.3511   0.2580      6.0      4.0      6.0
+11 2010-11  324 0.0895 0.1883 0.3117   0.2222      7.0      7.0      7.0
+14 2011-02  123 0.1789 0.3577 0.4797   0.3008      1.0      1.0      3.0
+  w=1: top set cohorts [8, 9, 14] (size 3), bottom set [7, 10, 11] (size 3); boundary ties: top cutoff shared by 1 cohort(s), bottom cutoff shared by 1 cohort(s)
+  w=3: top set cohorts [7, 8, 14] (size 3), bottom set [6, 9, 11] (size 3); boundary ties: top cutoff shared by 1 cohort(s), bottom cutoff shared by 1 cohort(s)
+  w=6: top set cohorts [6, 7, 14] (size 3), bottom set [9, 10, 11] (size 3); boundary ties: top cutoff shared by 1 cohort(s), bottom cutoff shared by 1 cohort(s)
+  tied rates within vector: w=1: 0, w=3: 0, w=6: 0
+  pair (1,3): tau-b point = 0.5238; Jaccard top = 0.500, bottom = 0.200
+  pair (1,6): tau-b point = 0.3333; Jaccard top = 0.200, bottom = 0.500
+  pair (3,6): tau-b point = 0.2381; Jaccard top = 0.500, bottom = 0.500
+
+====================================================================================================
+3. PAIRED CUSTOMER-LEVEL BOOTSTRAP (B=10000 pairs of independent resamples; seed 20261016)  [SUPPLEMENTARY RUN: B overridden by C2_B; NOT the frozen primary analysis]
+====================================================================================================
+NaN tau-b counts across replicates: {'S': 0, 'D': 0, 'X': 0}
+
+------ h = 6 (k = 10) ------
+Cohort rate and G intervals (median [2.5%, 97.5%] over resample 1 of each pair):
+ c  cohort  n_c  R1 pt  R1 2.5%  R1 97.5%  R3 pt  R3 2.5%  R3 97.5%  R6 pt  R6 2.5%  R6 97.5%   G pt  G 2.5%  G 97.5%
+ 6 2010-06  262 0.1260   0.0878    0.1679 0.4313   0.3702    0.4924 0.5954   0.5344    0.6565 0.4695  0.4084   0.5305
+ 7 2010-07  185 0.1135   0.0703    0.1622 0.3730   0.3027    0.4432 0.5784   0.5081    0.6486 0.4649  0.3946   0.5351
+ 8 2010-08  161 0.0994   0.0559    0.1491 0.2609   0.1925    0.3292 0.5217   0.4472    0.5963 0.4224  0.3478   0.4969
+ 9 2010-09  240 0.1375   0.0958    0.1833 0.2500   0.1958    0.3042 0.5167   0.4542    0.5792 0.3792  0.3207   0.4417
+10 2010-10  376 0.1303   0.0983    0.1649 0.2314   0.1888    0.2766 0.4548   0.4043    0.5053 0.3245  0.2766   0.3723
+11 2010-11  324 0.1296   0.0926    0.1667 0.2160   0.1728    0.2623 0.3457   0.2932    0.3981 0.2160  0.1728   0.2623
+14 2011-02  123 0.1545   0.0976    0.2195 0.3577   0.2764    0.4472 0.4797   0.3902    0.5691 0.3252  0.2439   0.4065
+15 2011-03  179 0.2067   0.1508    0.2682 0.3743   0.3071    0.4469 0.5587   0.4860    0.6313 0.3520  0.2793   0.4190
+16 2011-04  106 0.1792   0.1038    0.2547 0.4340   0.3396    0.5283 0.5472   0.4528    0.6415 0.3679  0.2736   0.4623
+17 2011-05  110 0.2545   0.1727    0.3364 0.4273   0.3364    0.5182 0.5909   0.5000    0.6818 0.3364  0.2455   0.4273
+
+Sampling-only reference S(w): tau-b between independent resamples under the same window (median [2.5%, 97.5%])
+  S(w=1):  0.511 [ 0.156,  0.822]
+  S(w=3):  0.689 [ 0.422,  0.867]
+  S(w=6):  0.600 [ 0.244,  0.822]
+
+Between-definition quantities per window pair (tau-b): point (original data) | D paired | X independent
+  (1,3): point  0.333 | D  0.356 [ 0.133,  0.556] | X  0.289 [-0.067,  0.600]
+  (1,6): point  0.200 | D  0.200 [-0.067,  0.444] | X  0.156 [-0.244,  0.511]
+  (3,6): point  0.689 | D  0.600 [ 0.422,  0.778] | X  0.511 [ 0.156,  0.778]
+
+Top-3 / bottom-3 Jaccard overlap per window pair: point | D | X
+  (1,3) top: point 0.500 | D  0.350 [ 0.200,  0.750] | X  0.500 [ 0.000,  1.000]
+  (1,3) bot: point 0.000 | D  0.350 [ 0.100,  0.600] | X  0.200 [ 0.000,  0.500]
+  (1,6) top: point 0.200 | D  0.350 [ 0.100,  0.600] | X  0.200 [ 0.000,  0.500]
+  (1,6) bot: point 0.000 | D  0.200 [ 0.000,  0.500] | X  0.200 [ 0.000,  0.500]
+  (3,6) top: point 0.500 | D  0.500 [ 0.200,  1.000] | X  0.500 [ 0.200,  1.000]
+  (3,6) bot: point 0.500 | D  0.500 [ 0.350,  1.000] | X  0.500 [ 0.200,  1.000]
+
+Share of resamples (2 per pair, 20000 per window) with boundary ties (set size > 3):
+  w=1: top 0.02%  bottom 0.12%
+  w=3: top 0.11%  bottom 0.10%
+  w=6: top 0.05%  bottom 0.07%
+
+------ h = 9 (k = 7)  [DESCRIPTIVE ONLY: k < 8] ------
+Cohort rate and G intervals (median [2.5%, 97.5%] over resample 1 of each pair):
+ c  cohort  n_c  R1 pt  R1 2.5%  R1 97.5%  R3 pt  R3 2.5%  R3 97.5%  R6 pt  R6 2.5%  R6 97.5%   G pt  G 2.5%  G 97.5%
+ 6 2010-06  262 0.1183   0.0802    0.1603 0.2099   0.1640    0.2634 0.4962   0.4351    0.5573 0.3779  0.3206   0.4351
+ 7 2010-07  185 0.1135   0.0703    0.1622 0.2811   0.2162    0.3459 0.4865   0.4161    0.5568 0.3730  0.3027   0.4432
+ 8 2010-08  161 0.1304   0.0807    0.1863 0.2919   0.2236    0.3602 0.4161   0.3416    0.4907 0.2857  0.2174   0.3540
+ 9 2010-09  240 0.1333   0.0917    0.1792 0.2458   0.1917    0.3000 0.3625   0.3042    0.4250 0.2292  0.1792   0.2833
+10 2010-10  376 0.0931   0.0638    0.1223 0.2500   0.2074    0.2952 0.3511   0.3032    0.4016 0.2580  0.2154   0.3032
+11 2010-11  324 0.0895   0.0586    0.1204 0.1883   0.1451    0.2315 0.3117   0.2623    0.3642 0.2222  0.1759   0.2685
+14 2011-02  123 0.1789   0.1138    0.2439 0.3577   0.2764    0.4390 0.4797   0.3902    0.5691 0.3008  0.2195   0.3821
+
+Sampling-only reference S(w): tau-b between independent resamples under the same window (median [2.5%, 97.5%])
+  S(w=1):  0.524 [-0.048,  0.905]
+  S(w=3):  0.619 [ 0.238,  0.905]
+  S(w=6):  0.714 [ 0.333,  0.905]
+
+Between-definition quantities per window pair (tau-b): point (original data) | D paired | X independent
+  (1,3): point  0.524 | D  0.524 [ 0.190,  0.762] | X  0.429 [-0.048,  0.810]
+  (1,6): point  0.333 | D  0.381 [ 0.048,  0.667] | X  0.333 [-0.143,  0.714]
+  (3,6): point  0.238 | D  0.381 [ 0.143,  0.619] | X  0.333 [-0.048,  0.714]
+
+Top-3 / bottom-3 Jaccard overlap per window pair: point | D | X
+  (1,3) top: point 0.500 | D  0.500 [ 0.200,  1.000] | X  0.500 [ 0.200,  1.000]
+  (1,3) bot: point 0.200 | D  0.500 [ 0.200,  0.750] | X  0.500 [ 0.200,  1.000]
+  (1,6) top: point 0.200 | D  0.350 [ 0.200,  0.750] | X  0.500 [ 0.200,  1.000]
+  (1,6) bot: point 0.500 | D  0.500 [ 0.250,  0.750] | X  0.500 [ 0.200,  1.000]
+  (3,6) top: point 0.500 | D  0.500 [ 0.200,  0.750] | X  0.500 [ 0.200,  0.500]
+  (3,6) bot: point 0.500 | D  0.500 [ 0.350,  0.750] | X  0.500 [ 0.200,  1.000]
+
+Share of resamples (2 per pair, 20000 per window) with boundary ties (set size > 3):
+  w=1: top 0.04%  bottom 0.01%
+  w=3: top 0.10%  bottom 0.16%
+  w=6: top 0.00%  bottom 0.03%
+
+====================================================================================================
+4. NO-ASSOCIATION REFERENCES (permutation of cohort labels; 10,000 permutations; seed 20261018). Diagnostic only, not a test.
+====================================================================================================
+
+h=6: k=10; analytic no-tie null SD of tau = 0.248; minimum tau step (one swapped pair, no ties) = 0.0444; chance expectation of top-3 (or bottom-3) overlap count between independent random sets = 9/k = 0.90
+  (1,3) with observed ties preserved: null mean -0.000, SD 0.248, 95th percentile 0.422
+  (1,6) with observed ties preserved: null mean -0.006, SD 0.248, 95th percentile 0.422
+  (3,6) with observed ties preserved: null mean -0.004, SD 0.249, 95th percentile 0.422
+
+h=9: k=7; analytic no-tie null SD of tau = 0.317; minimum tau step (one swapped pair, no ties) = 0.0952; chance expectation of top-3 (or bottom-3) overlap count between independent random sets = 9/k = 1.29
+  (1,3) with observed ties preserved: null mean -0.001, SD 0.315, 95th percentile 0.524
+  (1,6) with observed ties preserved: null mean -0.009, SD 0.316, 95th percentile 0.524
+  (3,6) with observed ties preserved: null mean -0.002, SD 0.315, 95th percentile 0.524
+
+====================================================================================================
+5. CANCELLATION REPORTING (descriptive only; equal-length exposure interval [c, c+h] per cohort)
+====================================================================================================
+Cancellation-prefix rows by calendar month (all rows, as in file; includes duplicated overlap block rows):
+      month   rows  canc_rows  canc_share_%
+mi                                         
+0   2009-12  45228       1015          2.24
+1   2010-01  31555        686          2.17
+2   2010-02  29388        576          1.96
+3   2010-03  41511        844          2.03
+4   2010-04  34057        626          1.84
+5   2010-05  35323        983          2.78
+6   2010-06  39983        793          1.98
+7   2010-07  33383        734          2.20
+8   2010-08  33306        573          1.72
+9   2010-09  42091        812          1.93
+10  2010-10  59098       1041          1.76
+11  2010-11  78015       1194          1.53
+12  2010-12  65004       1057          1.63
+13  2011-01  35147        701          1.99
+14  2011-02  27707        475          1.71
+15  2011-03  36748        699          1.90
+16  2011-04  29916        559          1.87
+17  2011-05  37030        621          1.68
+18  2011-06  36874        711          1.93
+19  2011-07  39518        685          1.73
+20  2011-08  35284        668          1.89
+21  2011-09  50226        805          1.60
+22  2011-10  60742       1200          1.98
+23  2011-11  84711       1076          1.27
+24  2011-12  25526        360          1.41
+
+Per cohort, interval [c, c+h], rows as in file (no deduplication, frozen rule):
+ h  c  cohort  n_c  cust_with_canc  share_cust_pct  canc_rows  qual_rows  canc_per_100_qual
+ 6  6 2010-06  262              81           30.92        274      16871               1.62
+ 6  7 2010-07  185              58           31.35        329      12098               2.72
+ 6  8 2010-08  161              48           29.81        135      10510               1.28
+ 6  9 2010-09  240              83           34.58        343      13386               2.56
+ 6 10 2010-10  376             102           27.13        349      21619               1.61
+ 6 11 2010-11  324              82           25.31        278      17853               1.56
+ 6 14 2011-02  123              36           29.27         95       5857               1.62
+ 6 15 2011-03  179              64           35.75        275       9345               2.94
+ 6 16 2011-04  106              24           22.64         67       6040               1.11
+ 6 17 2011-05  110              32           29.09         95       5756               1.65
+ 9  6 2010-06  262              85           32.44        304      18632               1.63
+ 9  7 2010-07  185              60           32.43        367      14266               2.57
+ 9  8 2010-08  161              52           32.30        157      12057               1.30
+ 9  9 2010-09  240              87           36.25        371      15089               2.46
+ 9 10 2010-10  376             111           29.52        411      24899               1.65
+ 9 11 2010-11  324              87           26.85        311      19542               1.59
+ 9 14 2011-02  123              41           33.33        154       7132               2.16
+
+Same, after removing exact duplicate rows (disclosure only; rows-based figures only):
+ h  c  cohort  n_c  cust_with_canc  share_cust_pct  canc_rows  qual_rows  canc_per_100_qual
+ 6  6 2010-06  262              81           30.92        256      16028               1.60
+ 6  7 2010-07  185              58           31.35        320      11420               2.80
+ 6  8 2010-08  161              48           29.81        132       9905               1.33
+ 6  9 2010-09  240              83           34.58        327      12575               2.60
+ 6 10 2010-10  376             102           27.13        325      20368               1.60
+ 6 11 2010-11  324              82           25.31        240      16603               1.45
+ 6 14 2011-02  123              36           29.27         95       5777               1.64
+ 6 15 2011-03  179              64           35.75        275       9272               2.97
+ 6 16 2011-04  106              24           22.64         66       5974               1.10
+ 6 17 2011-05  110              32           29.09         94       5672               1.66
+ 9  6 2010-06  262              85           32.44        286      17774               1.61
+ 9  7 2010-07  185              60           32.43        358      13535               2.64
+ 9  8 2010-08  161              52           32.30        154      11442               1.35
+ 9  9 2010-09  240              87           36.25        355      14269               2.49
+ 9 10 2010-10  376             111           29.52        387      23611               1.64
+ 9 11 2010-11  324              87           26.85        273      18277               1.49
+ 9 14 2011-02  123              41           33.33        154       7042               2.19
+
+Difference (as-file minus dedup) in cancellation rows / qualifying rows by cohort-horizon (nonzero only):
+ h  c  d_canc_rows  d_qual_rows
+ 6  6           18          843
+ 6  7            9          678
+ 6  8            3          605
+ 6  9           16          811
+ 6 10           24         1251
+ 6 11           38         1250
+ 6 14            0           80
+ 6 15            0           73
+ 6 16            1           66
+ 6 17            1           84
+ 9  6           18          858
+ 9  7            9          731
+ 9  8            3          615
+ 9  9           16          820
+ 9 10           24         1288
+ 9 11           38         1265
+ 9 14            0           90
+
+====================================================================================================
+6. MONTE CARLO CHECK: full bootstrap (B=10000) repeated with a second fixed seed (20261017)
+====================================================================================================
+max absolute difference between seeds in any median/percentile of S, D, X and Jaccard summaries: 0.0996
+  of which tau-b summaries (S, D, X; median and both endpoints): 0.0952
+  of which Jaccard overlap summaries (discrete-valued; median and both endpoints): 0.0996
+  Jaccard summaries with seed-to-seed difference >= 0.25 (h, pair, quantity, seed1 [median, lo, hi], seed2 [median, lo, hi], max diff):
+max absolute difference between seeds in any 2.5%/97.5% endpoint of cohort rates and G: 0.0094
+NaN counts seed 2: {'S': 0, 'D': 0, 'X': 0}
+
+DONE

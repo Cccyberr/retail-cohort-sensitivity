@@ -1,0 +1,13 @@
+PARSE: h=6 -> 10 cohorts, h=9 -> 7 cohorts (first seven of h=6); observed rates contain no ties in any window (printed tie counts = 0).
+PARSE: bootstrap S/D/X summaries read for h=6 and h=9 (B=1000 frozen primary run).
+CHECK 1: ranks recomputed from printed rates (descending, average ties) equal printed ranks for all windows, h=6 and h=9: PASS
+CHECK 2: R1 <= R3 <= R6 for every plotted cohort/horizon (nesting): PASS
+CHECK 3: manuscript Table (original rates and ranks, h=6) equals parsed output for all 10 cohorts x 3 windows (rates at 3 dp, ranks exact): PASS
+CHECK 4: manuscript tau-b table (point, D, X; h=6) equals parsed output for 3 pairs: PASS
+CHECK 5: manuscript S(w) values at h=6 (0.511/0.689/0.556 with ranges) found verbatim in the text and equal parsed values: PASS
+CHECK 6: manuscript h=9 text (S medians 0.524/0.619/0.714; point tau-b 0.524/0.333/0.238) equals parsed output: PASS
+STYLE: font = TeX Gyre Termes; figure width 7.16 in (IEEE two-column span); min font size 7.5 pt
+WROTE figures/fig1_heatmap.pdf and .png
+WROTE figures/fig2_rank_slope.pdf and .png
+WROTE figures/fig3_agreement.pdf and .png
+rerun of analysis_c2.py on raw data reproduced analysis_output.txt byte-for-byte (cmp identical; sha256 66ec75027440533aa0ea1cd91762c6ee68638767dcb83fe3a3542a33c0ad4783); script sha256 698921a1de3f43af81f69a83649c0e0cf56543a477952305800a61801660451e
