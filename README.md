@@ -9,6 +9,7 @@
 - `SUPPLEMENTARY_README.txt` explains how the supplementary output was produced.
 - `plot_figures.py` regenerates the three data figures from the primary output. Without a manuscript, it runs the figure-generation, rank and nesting checks. If an optional manuscript `.tex` is supplied as a second argument, it also cross-checks the plotted values against the manuscript's numbers.
 - `verification_log.txt` contains the recorded verification log.
+- `threshold_sensitivity.py` recomputes the point estimates with cohort-size thresholds of 50, 75, 100, and 125 (no bootstrap). Its output is `threshold_sensitivity_output.txt`. The threshold-100 row reproduces the paper's primary point estimates.
 
 ## Dataset
 
@@ -48,6 +49,12 @@ Download the dataset from UCI and extract `online_retail_II.xlsx` into the repos
    ```
 
    The manuscript `.tex` is not included in this package. To run the additional manuscript cross-check, supply its path as an optional second argument.
+
+ 5. Optional threshold-sensitivity check:
+
+   python3 -I threshold_sensitivity.py all.pkl > my_threshold_output.txt
+
+   Compare `my_threshold_output.txt` with `threshold_sensitivity_output.txt`.
 
 ## Clean-room test
 
