@@ -75,6 +75,8 @@ Bootstrap draws depend on the NumPy random generator version. If your environmen
 - `analysis_output_PRIMARY_B1000.txt`: `66ec75027440533aa0ea1cd91762c6ee68638767dcb83fe3a3542a33c0ad4783`
 - `verification_log.txt`: `05c393ca5a6a2dcb2b9ca74e9f12543a9d2e64d8586ca433c4170ddf9724825b`
 - `plot_figures.py`: `28d5ea2ab29b3f94a2c628fb1e7a06531749e5b19a2a296548feee686358a01e`
+- `threshold_sensitivity.py`: `4e05afe0facd6d50b7fdc713be168786989168bf99325d9c447c7461a7997148`
+- `threshold_sensitivity_output.txt`: `54ffc7f2e51bdf740c1304825b5e9affcbc2807cc34a003fdb28b167bf4435e2`
 
 ## Repository, license and archive DOI
 
